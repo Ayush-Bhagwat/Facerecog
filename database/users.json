@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Ayush Bhagwat",
+        "role": "Admin",
+        "image_path": "stored_faces\\Ayush Bhagwat.jpg"
+    },
+    {
+        "name": "Aaman Shaikh",
+        "role": "User",
+        "image_path": "stored_faces\\Aaman Shaikh.jpg"
+    }
+]
