@@ -10,11 +10,16 @@ import uuid
 # ---------------------------
 st.set_page_config(page_title="Face Access System", layout="wide")
 
-DATABASE_PATH = "database/users.json"
-FACES_PATH = "stored_faces"
+# Absolute base directory (Cloud-safe)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-os.makedirs("database", exist_ok=True)
+DATABASE_PATH = os.path.join(BASE_DIR, "database", "users.json")
+FACES_PATH = os.path.join(BASE_DIR, "stored_faces")
+ASSETS_PATH = os.path.join(BASE_DIR, "assets")
+
+os.makedirs(os.path.join(BASE_DIR, "database"), exist_ok=True)
 os.makedirs(FACES_PATH, exist_ok=True)
+
 
 # ---------------------------
 # Advanced CSS Styling
@@ -68,14 +73,15 @@ def verify_face(uploaded_path):
     users = load_users()
     for user in users:
         try:
-            result = DeepFace.verify(
-                img1_path=uploaded_path,
-                img2_path=user["image_path"],
-                model_name="Facenet",
-                enforce_detection=True
-            )
-            if result["verified"]:
-                return user["name"]
+            if os.path.exists(user["image_path"]):
+                result = DeepFace.verify(
+                    img1_path=uploaded_path,
+                    img2_path=user["image_path"],
+                    model_name="Facenet",
+                    enforce_detection=True
+                )
+                if result["verified"]:
+                    return user["name"]
         except:
             continue
     return None
@@ -103,7 +109,8 @@ if menu == "Home":
     uploaded_file = st.file_uploader("Upload Image", type=["jpg","jpeg","png"])
 
     if uploaded_file:
-        temp_path = f"temp_{uuid.uuid4().hex}.jpg"
+        temp_path = os.path.join(BASE_DIR, f"temp_{uuid.uuid4().hex}.jpg")
+
         with open(temp_path, "wb") as f:
             f.write(uploaded_file.read())
 
@@ -181,7 +188,10 @@ elif menu == "View Registered Users":
         for i, user in enumerate(users):
             with cols[i % 3]:
                 st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-                st.image(user["image_path"])
+                if os.path.exists(user["image_path"]):
+                    st.image(user["image_path"])
+                else:
+                    st.warning("Image file missing")                
                 st.markdown(f"**{user['name']}**")
                 st.write(f"Role: {user['role']}")
                 st.markdown('</div>', unsafe_allow_html=True)
@@ -266,11 +276,12 @@ elif menu == "About":
     st.subheader("👨‍💻 Creators")
 
     creators = [
-        {"name": "Ayush Bhagwat", "role": "Lead Developer & System Architect", "image": "assets/Ayushpic.jpeg"},
-        {"name": "Adarsh Patil", "role": "Backend Developer", "image": "assets/Aadarsh.jpeg"},
-        {"name": "Rihanshu Ashtikar", "role": "Frontend & UI Developer", "image": "assets/Rihanshu.jpeg"},
-        {"name": "Aman Shaikh", "role": "System Integration & Testing", "image": "assets/Aaman Shaikh.jpeg"},
-    ]
+    {"name": "Ayush Bhagwat", "role": "Lead Developer & System Architect", "image": os.path.join(ASSETS_PATH, "Ayushpic.jpeg")},
+    {"name": "Adarsh Patil", "role": "Backend Developer", "image": os.path.join(ASSETS_PATH, "Aadarsh.jpeg")},
+    {"name": "Rihanshu Ashtikar", "role": "Frontend & UI Developer", "image": os.path.join(ASSETS_PATH, "Rihanshu.jpeg")},
+    {"name": "Aman Shaikh", "role": "System Integration & Testing", "image": os.path.join(ASSETS_PATH, "Aaman Shaikh.jpeg")},
+]
+
 
     cols = st.columns(2)
 
