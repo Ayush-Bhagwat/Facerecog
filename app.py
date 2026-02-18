@@ -27,14 +27,7 @@ body {
 .main {
     background: transparent;
 }
-.glass-card {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(20px);
-    border-radius: 25px;
-    padding: 30px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    animation: fadeIn 0.8s ease-in-out;
-}
+
 @keyframes fadeIn {
     from {opacity: 0; transform: translateY(15px);}
     to {opacity: 1; transform: translateY(0);}
@@ -196,33 +189,97 @@ elif menu == "View Registered Users":
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------------------
+# ---------------------------
 # ABOUT PAGE
 # ---------------------------
 elif menu == "About":
     st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.subheader("About This Project")
 
-    st.write("""
-    This Face Access Control System uses DeepFace facial verification
-    to authenticate users. The first registered user becomes Admin
-    and can authorize additional members securely.
+    st.subheader("🔎 Project Overview")
+
+    st.markdown("""
+    The **Face Access Control System** is a biometric authentication platform 
+    designed to provide secure, intelligent, and role-based access using facial recognition technology.
+
+    Unlike traditional password systems that rely on memory and manual input, 
+    this system leverages **Deep Learning-based facial verification** to identify 
+    and authenticate users through their unique facial features.
+
+    The system operates in a structured workflow:
+
+    1. **Initial Admin Registration**
+       - When the system runs for the first time and no users exist,
+         the first verified individual is automatically registered as the **Admin**.
+       - This Admin gains authority to manage user access.
+
+    2. **User Authentication**
+       - When a user uploads their photo, the system compares it 
+         against stored facial data using the **FaceNet model**.
+       - If a match is verified within the threshold confidence level,
+         access is granted.
+       - If no match is found, access is denied.
+
+    3. **Role-Based Access Control**
+       - Admin users can register new members.
+       - Registered users can be authenticated securely.
+       - Unauthorized individuals are blocked with a controlled access denial message.
+
+    4. **Secure Storage Mechanism**
+       - Facial images are stored securely in the system.
+       - Metadata including name and role is maintained in a structured JSON database.
+       - Face verification is performed dynamically using DeepFace.
+
+    This project demonstrates the practical implementation of:
+    - Computer Vision
+    - Deep Learning
+    - Biometric Security Systems
+    - Role-Based Access Control
+    - Modern Web Interface Design (Glassmorphism UI)
+
+    The objective of this system is to simulate a real-world biometric access platform 
+    that could be extended to institutions, workplaces, or secure environments.
     """)
 
-    st.subheader("Creators")
+    st.subheader("⚙️ Technologies Used")
+
+    st.markdown("""
+    - **Streamlit** – Frontend web framework  
+    - **DeepFace** – Deep Learning-based facial verification  
+    - **TensorFlow & FaceNet** – Neural network model for feature embeddings  
+    - **Python** – Core application logic  
+    - **JSON Database** – Lightweight structured data storage  
+    - **Glassmorphism UI Design** – Modern user interface styling  
+    """)
+
+    st.subheader("🎯 Key Features")
+
+    st.markdown("""
+    ✔ Automated Admin Initialization  
+    ✔ Facial Verification using Deep Learning  
+    ✔ Role-Based Access Control  
+    ✔ Secure User Registration  
+    ✔ Real-Time Face Matching  
+    ✔ Modern Responsive Interface  
+    ✔ Extendable Architecture for Live Systems  
+    """)
+
+    st.subheader("👨‍💻 Creators")
 
     creators = [
-        {"name": "Ayush Bhagwat", "role": "Developer", "image": "assets/Ayushpic.jpeg"},
-        {"name": "Member 2", "role": "Role Placeholder", "image": "assets/member2.jpg"},
-        {"name": "Member 3", "role": "Role Placeholder", "image": "assets/member3.jpg"},
-        {"name": "Member 4", "role": "Role Placeholder", "image": "assets/member4.jpg"},
-        {"name": "Member 5", "role": "Role Placeholder", "image": "assets/member5.jpg"},
+        {"name": "Ayush Bhagwat", "role": "Lead Developer & System Architect", "image": "assets/Ayushpic.jpeg"},
+        {"name": "Adarsh Patil", "role": "Backend Developer", "image": "assets/Aadarsh.jpeg"},
+        {"name": "Rihanshu Ashtikar", "role": "Frontend & UI Developer", "image": "assets/Rihanshu.jpeg"},
+        {"name": "Aman Shaikh", "role": "System Integration & Testing", "image": "assets/Aaman Shaikh.jpeg"},
     ]
 
-    cols = st.columns(3)
+    cols = st.columns(2)
+
     for i, creator in enumerate(creators):
-        with cols[i % 3]:
+        with cols[i % 2]:
+            st.markdown('<div class="glass-card">', unsafe_allow_html=True)
             st.image(creator["image"])
-            st.markdown(f"**{creator['name']}**")
+            st.markdown(f"### {creator['name']}")
             st.write(creator["role"])
+            st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)

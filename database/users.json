@@ -8,5 +8,10 @@
         "name": "Aaman Shaikh",
         "role": "User",
         "image_path": "stored_faces\\Aaman Shaikh.jpg"
+    },
+    {
+        "name": "Aadarsh patil",
+        "role": "User",
+        "image_path": "stored_faces\\Aadarsh patil.jpg"
     }
 ]
