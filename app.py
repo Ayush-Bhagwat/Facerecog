@@ -119,7 +119,7 @@ if menu == "Home":
             admin_name = st.text_input("Enter Admin Name")
 
             if st.button("Register Admin"):
-                permanent_path = os.path.join(FACES_PATH, f"{admin_name}.jpg")
+                permanent_path = os.path.join("stored_faces", f"{admin_name}.jpg")
                 os.rename(temp_path, permanent_path)
 
                 users.append({
